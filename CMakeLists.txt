@@ -24,7 +24,7 @@ set(CLUON_COMPLETE cluon-complete-v0.0.121.hpp)
 
 ################################################################################
 # This project requires C++14 or newer.
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 # Strip unneeded symbols from binaries.
@@ -51,6 +51,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 # Threads are necessary for linking the resulting binaries as UDPReceiver is running in parallel.
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
+find_package(fmi4cpp REQUIRED)
+find_package(ZLIB)
+find_package(CURL)
 
 ################################################################################
 # Extract cluon-msc from cluon-complete.hpp.
@@ -74,7 +77,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 ################################################################################
 # Gather all object code first to avoid double compilation.
 add_library(${PROJECT_NAME}-core OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/src/single-track-model.cpp ${CMAKE_BINARY_DIR}/opendlv-standard-message-set.hpp)
-set(LIBRARIES Threads::Threads)
+link_libraries(stdc++fs)
+set(LIBRARIES Threads::Threads fmi4cpp zip dl)
 
 ################################################################################
 # Create executable.

@@ -14,6 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <string>
+
+#include <fmi4cpp/fmi4cpp.hpp>
+#include <fmi4cpp/fmi2/fmi2.hpp>
+#include <fmi4cpp/driver/fmu_driver.hpp>
 
 #include "cluon-complete.hpp"
 #include "opendlv-standard-message-set.hpp"
@@ -21,6 +26,17 @@
 
 int32_t main(int32_t argc, char **argv) {
   int32_t retCode{0};
+
+  {
+    const std::string fmuPath = "../src/resources/BouncingBall/BouncingBall.fmu";
+    fmi4cpp::driver::driver_options options;
+    options.stopTime = 1.0;
+    options.modelExchange = true;
+    options.variables = {"h", "v"};
+    fmi4cpp::driver::fmu_driver driver(fmuPath, options);
+    driver.run();
+  }
+
   auto commandlineArguments = cluon::getCommandlineArguments(argc, argv);
   if (0 == commandlineArguments.count("cid") || 0 == commandlineArguments.count("freq") || 0 == commandlineArguments.count("frame-id")) {
     std::cerr << argv[0] << " is a dynamics model for the Chalmers Kiwi platform." << std::endl;
