@@ -69,17 +69,16 @@ public:
     slave_->exit_initialization_mode();
   }
 
-  State step() {
-    State result{};
-    if (options_.stopTime == 0.0 || slave_->get_simulation_time() <= options_.stopTime) {
+  template<typename T>
+  void step(std::vector<T>& state) {
+    if (options_.stopTime <= 0.0 || slave_->get_simulation_time() <= options_.stopTime) {
       if (!slave_->step(options_.stepSize)) {
         slave_->terminate();
         throw failure("Simulation terminated prematurely.");
       }
-      slave_->read_real(0, result.h);
-      slave_->read_real(0, result.v);
+      slave_->read_real(0, state[0]);
+      slave_->read_real(1, state[1]);
     }
-    return result;
   }
 
 private:

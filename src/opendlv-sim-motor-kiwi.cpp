@@ -40,12 +40,13 @@ int32_t main(int32_t argc, char **argv) {
     options.variables = {"h", "v"};
     fmi4cpp::driver::fmu_driver driver(fmuPath, options);
     driver.init();
-    auto res = driver.step();
-    std::cerr << res.h << ", " << res.v << std::endl;
-    res = driver.step();
-    std::cerr << res.h << ", " << res.v << std::endl;
-    res = driver.step();
-    std::cerr << res.h << ", " << res.v << std::endl;
+    std::vector<double> state(2);
+    driver.step<double>(state);
+    std::cerr << state[0] << ", " << state[1] << std::endl;
+    driver.step<double>(state);
+    std::cerr << state[0] << ", " << state[1] << std::endl;
+    driver.step<double>(state);
+    std::cerr << state[0] << ", " << state[1] << std::endl;
   }
 
   auto commandlineArguments = cluon::getCommandlineArguments(argc, argv);
