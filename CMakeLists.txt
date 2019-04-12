@@ -20,7 +20,7 @@ project(opendlv-sim-motor-kiwi)
 add_definitions(-DFMI4CPP_WITH_ODEINT)
 ################################################################################
 # Defining the relevant versions of OpenDLV Standard Message Set and libcluon.
-set(OPENDLV_STANDARD_MESSAGE_SET opendlv-standard-message-set-v0.9.4.odvd)
+set(OPENDLV_STANDARD_MESSAGE_SET opendlv-standard-message-set-v0.9.5.odvd)
 set(CLUON_COMPLETE cluon-complete-v0.0.121.hpp)
 
 ################################################################################
